@@ -1,0 +1,229 @@
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> @yield('title')</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap -->
+  <link rel="stylesheet" type="text/css" href="{{URL::asset('css/bootstrap.min.css')}}"></link>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" type="text/css" href="{{URL::asset('css/AdminLTE.min.css')}}"></link>
+  <!-- AdminLTE Skins-->
+  <link rel="stylesheet" type="text/css" href="{{URL::asset('css/skins/skin-red.min.css')}}"></link>
+  <script type="text/javascript" src="{{URL::asset('js/jquery-3.1.1.min.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('js/jquery.validate.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('js/additional-methods.js')}}"></script>
+</head>
+
+<body class="skin-red sidebar-mini" style="height: auto;">
+<div class="wrapper" style="height: auto;">
+
+  <!-- Main Header -->
+  <header class="main-header">
+
+    <!-- Logo -->
+    <a href="index2.html" class="logo">
+      <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini"><b>B</b>T</span>
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg"><b>Backend</b> Test</span>
+    </a>
+
+    <!-- Header Navbar -->
+    <nav class="navbar navbar-static-top" role="navigation">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>
+      <!-- Navbar Right Menu -->
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+          
+
+          
+          <!-- User Account Menu -->
+          <li class="dropdown user user-menu">
+            <!-- Menu Toggle Button -->
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <!-- The user image in the navbar-->
+              @yield('xs-nav-user-picture')
+              <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <!-- hidden-xs hides the username on small devices so only the image appears. -->
+              <span class="hidden-xs">@yield('xs-nav-user-name')Alexander Pierce</span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- The user image in the menu -->
+              <li class="user-header">
+                @yield('nav-prifile-user-picture')
+                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+
+                <p>
+                	@yield('nav-profile-user-name')
+                  Alexander Pierce - Web Developer
+                  <small>Member since Nov. 2012</small>
+                </p>
+              </li>
+              
+              <!-- Menu Footer-->
+              <li class="user-footer">
+                <div class="pull-right">
+                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel">
+        <div class="pull-left image">
+        	@yield('user-picture')
+          <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+          <p>@yield('user-name')SSAlexander Pierce</p>
+          <!-- Status -->
+          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+        </div>
+      </div>
+
+      <!-- Sidebar Menu -->
+      <ul class="sidebar-menu">
+        <li class="header">OPTIONS MENU</li>
+        @yield('opciones')
+        <!-- Optionally, you can add icons to the links -->
+        <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
+        <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
+        <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="#">Link in level 2</a></li>
+            <li><a href="#">Link in level 2</a></li>
+          </ul>
+        </li>
+      </ul>
+      <!-- /.sidebar-menu -->
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper" style="min-height: 483px;">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        @yield('page-header')
+        <small>@yield('page-description')</small>
+      </h1>
+      <ol class="breadcrumb">
+      	@yield('bread-crumbs')
+        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+        <li class="active">Here</li>
+      </ol>
+    </section>
+<div class="row">
+    <!-- Main content -->
+    <section class="content">
+    
+      <div class='col-xs-12'>
+        @if(Session::has('message'))
+          <div class="alert alert-success alert dismissible" role='alert'>
+            <button type="button" class="close" data-dismiss="alert" aria-label="close" aria-hidden="true">x</button>
+            {{Session::get('message')}}
+          </div>
+        @endif
+        
+        @yield('content') 
+      </div> 
+       
+     
+    </section>
+    </div>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Main Footer -->
+  <footer class="main-footer">
+    <!-- To the right -->
+    <div class="pull-right hidden-xs">
+      Danny Torres
+    </div>
+    <!-- Default to the left -->
+    <strong>Copyright © 2017 <a href="http://clickdelivery.com/">Clickdelivery</a>.</strong> All rights reserved.
+  </footer>
+
+  
+  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED JS SCRIPTS -->
+
+<!-- jQuery 2.2.3 -->
+
+<!-- Bootstrap 3.3.6 -->
+<script type="text/javascript" src="{{URL::asset('js/bootstrap.min.js')}}"></script>
+<!-- AdminLTE App -->
+<script type="text/javascript" src="{{URL::asset('js/app.min.js')}}"></script>
+<!--Validator on the front-->
+
+<script type="text/javascript">
+  $('#customerform').validate({
+    rules: {
+        first_name: {
+            required: true,
+            minlength: 2,
+            maxlength: 50,
+            lettersonly: true
+        },
+        last_name: {
+          required: true,
+          minlength: 2,
+          maxlength: 50, 
+         lettersonly: true
+        },
+        email: {
+          required: true,
+          minlength: 10,
+          maxlength: 150,
+          email: true
+
+        },
+        password: {
+          required: true
+        },
+        repassword:{
+          required: true,
+          equalTo: "#password"
+        }
+      }
+  });
+  //on Delete Rows Confirmation Script
+  function DeleteConfirmation(){
+    var confirmation = confirm("Are you sure you want to delete?");
+    if (confirmation)
+      return true;
+    else
+      return false;
+  }
+</script>
+</body>
