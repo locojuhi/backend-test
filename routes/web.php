@@ -22,3 +22,5 @@ Route::get('register', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+Route::get('confirmation/{code}', 'Usercontroller@activateAccount');
+

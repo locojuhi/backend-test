@@ -4,6 +4,6 @@
 @endsection
 @section('content')
 @include('alerts.alert')
-@include('customers.form')
+@include('users.form')
 
 @endsection

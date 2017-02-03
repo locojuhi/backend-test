@@ -21,6 +21,7 @@
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
+  <h4>@yield('heading')</h4>
     @yield('content')
     <div class="social-auth-links text-center">
       <p>- OR -</p>

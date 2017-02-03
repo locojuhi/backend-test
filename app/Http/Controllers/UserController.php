@@ -7,6 +7,7 @@ use Backend\User;
 use Backend\Http\Requests\StoreUser;
 use Backend\Http\Requests\UpdateUser;
 use Session;
+use Backend\UserActivation;
 
 class UserController extends Controller
 {
@@ -85,11 +86,24 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id){
         $user = User::find($id);
         $user->destroy($id);
         Session::flash('message', 'User Deleted Successfully');
         return redirect()->action('UserController@index');
+    }
+    public function activateAccount($code){
+        $rowactivation = UserActivation::where('code', '=', $code);
+        $activation = UserActivation::with(['User'])->where('code','=', $code)->get();
+        $user = null;
+        foreach($activation as $activa){
+            $user = User::find($activa->user->id);
+        }
+        $user->active = true;
+        $user->save();
+        $rowactivation->delete();
+        Session::flash('message', 'User Activated Successfully');
+        return redirect('login');
+        
     }
 }

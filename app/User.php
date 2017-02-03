@@ -5,8 +5,11 @@ namespace Backend;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Mail;
+use Backend\Mail\AccountConfirmation;
 use Hash;
 use Session;
+use Backend\UserActivation;
 
 class User extends Authenticatable{
     use Notifiable;
@@ -39,6 +42,11 @@ class User extends Authenticatable{
         $this->attributes['password'] = Hash::make($value);
     }
 
+    public function userActivation()
+    {
+        return $this->hasOne('Backend\UserActivation');
+    }
+
     public function safeRecording($params){
         $user = new User();
         $user->first_name   = $params['first_name'];
@@ -46,6 +54,12 @@ class User extends Authenticatable{
         $user->email        = $params['email'];
         $user->password     = $params['password'];
         $user->save();
-        Session::flash('message', 'User Created Successfully');
+        Session::flash('message', 'User Created Successfully, and Email was sent to confirmate account');
+        $activation = new UserActivation();
+        $activation->user_id    = $user->id;
+        $activation->code       = str_random(40);
+        $activation->save();
+        Mail::to(['name' => $user->email])->send(new AccountConfirmation($activation));
     }
+
 }
