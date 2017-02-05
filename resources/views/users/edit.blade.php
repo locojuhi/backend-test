@@ -46,6 +46,39 @@
 						<input type="password" class="form-control" id="re-password" placeholder="Re-Password" name="repassword">
 					</div>
 				</div>
+
+				<div class="form-group">
+					<label for="role" class="col-sm-2 control-label">Role</label>
+					<div class="col-sm-10">
+				<select name="role" id="role" class="form-control" onchange="hidePermision()">
+					@foreach ($roles as $role)
+				        <option value="{{ $role->id }}" @if ($role->id == $data->role->id) selected="selected" @endif>
+				        	{{ $role->name }}
+				        </option>
+				    @endforeach
+				</select>
+
+				
+						 
+					</div>
+
+				</div>
+				<div class="form-group" id="permission" style="display:none" >
+					<label for="role" class="col-sm-2 control-label">Read Users Info</label>
+					<div class="col-sm-10">
+				
+					<select  class="form-control" name="permission"  >
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                    
+                  </select>
+				
+						 
+					</div>
+
+				</div>
+				
+
 				<p class="help-block">Leave password field blank if you dont want to change the password.</p>
 			</div>
 			<div class="box-footer">
@@ -85,5 +118,15 @@
 		      }
 		        });
 		    });
+	
+	function hidePermision(){
+		var role = document.getElementById('role')
+		var roleId = role.options[role.selectedIndex].value;
+		if(roleId != 3){
+			document.getElementById('permission').setAttribute("style", "display:true")
+		}else{
+			document.getElementById('permission').setAttribute("style", "display:none")
+		}
+	}
 </script>
 @endsection

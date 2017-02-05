@@ -1,6 +1,8 @@
 @extends('layouts.auth')
 @section('heading')
 @endsection
+@include('alerts.messages')
+@include('alerts.alert')
 @section('content')
 
                     <form class="" role="form" method="POST" action="{{ url('/register') }}">

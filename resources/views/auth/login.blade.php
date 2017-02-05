@@ -1,8 +1,18 @@
 @extends('layouts.auth')
 @section('heading')
 @endsection
+@include('alerts.messages')
+@include('alerts.alert')
 @section('content')
-
+@php
+    $fb = new Facebook\Facebook([
+        'app_id' => '575081076016752',
+        'app_secret' => '476da864f1c179bb7c784fa0c082753b'
+    ]);
+    $helper = $fb->getRedirectLoginHelper();
+    $permissions = ['email', 'user_likes']; // optional
+    $loginUrl = $helper->getLoginUrl("http://{{url('/')}}login-callback.php", $permissions);
+@endphp
                     <form class="" role="form" method="POST" action="{{ url('/login') }}">
                         {{ csrf_field() }}
 

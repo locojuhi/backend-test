@@ -52,5 +52,13 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \Backend\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'has.access' => \Backend\Http\Middleware\HasAccess::class,
+        'is.customer' => \Backend\Http\Middleware\IsCustomer::class,
+        'is.not.customer' => \Backend\Http\Middleware\IsNotCustomer::class,
+        'edit.customer' => \Backend\Http\Middleware\EditCustomer::class,
+        'edit.own.customer' => \Backend\Http\Middleware\EditOwnProfile::class,
+        'read.permission' => \Backend\Http\Middleware\ReadPermission::class,
+        'can.edit' => \Backend\Http\Middleware\CanEdit::class,
+    
     ];
 }

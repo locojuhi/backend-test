@@ -1,5 +1,5 @@
 <?php
-
+use Backend\User;
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -20,6 +20,15 @@ $factory->define(Backend\User::class, function (Faker\Generator $faker) {
         'last_name' => $faker->lastName,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt(str_random(10)),
+        'created_at' => $faker->dateTime,
+        'active' => true,
+    ];
+});
+
+$factory->define(Backend\Phone::class, function (Faker\Generator $faker) {
+    return [
+        'phone' => $faker->e164PhoneNumber,
+        'user_id' => User::all()->random()->id,
         'created_at' => $faker->dateTime,
     ];
 });

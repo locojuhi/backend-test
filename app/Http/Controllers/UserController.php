@@ -8,9 +8,18 @@ use Backend\Http\Requests\StoreUser;
 use Backend\Http\Requests\UpdateUser;
 use Session;
 use Backend\UserActivation;
-
+use Illuminate\Support\Facades\Auth;
+use Backend\UserRole;
 class UserController extends Controller
 {
+    
+    public function __construct(){
+        $this->middleware('has.access', ['except' => ['activateAccount', 'editprofile', 'update']]);
+        $this->middleware('edit.customer', ['only' => ['editprofile']]);
+        $this->middleware('edit.own.customer', ['only' => ['editprofile']]);
+        $this->middleware('read.permission', ['only' => ['show']]);
+        $this->middleware('can.edit', ['only' => ['edit']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -27,7 +36,8 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(){
-        return view('users.create');
+        $roles = UserRole::all(['id', 'name']);
+        return view('users.create', ['roles' => $roles]);
     }
 
     /**
@@ -51,6 +61,7 @@ class UserController extends Controller
      */
     public function show($id){
         $user = User::where('id', '=', $id)->get();
+        //dd($user->phones);
         return view('users.show', ['information' => $user]);
     }
 
@@ -62,7 +73,9 @@ class UserController extends Controller
      */
     public function edit($id){
         $user = User::where('id', '=', $id)->get();
-        return view('users.edit', ['information' => $user]);  
+        //$roles = UserRole::all()->pluck('name', 'id');
+        $roles = UserRole::all(['name', 'id']);
+        return view('users.edit', ['information' => $user, 'roles' =>$roles]);  
     }
 
     /**
@@ -73,11 +86,13 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateUser $request, $id){
-        $user = User::find($id);
+        /*$user = User::find($id);
         $user->fill($request->all());
-        $user->save();
-        Session::flash('message', 'User updated Successfully');
+        $user->save();*/
+        $user = new User;
+        $user->updateuser($request, $id);
         return redirect()->route('users.show', ['id' => $id]);
+        
     }
 
     /**
@@ -93,17 +108,34 @@ class UserController extends Controller
         return redirect()->action('UserController@index');
     }
     public function activateAccount($code){
-        $rowactivation = UserActivation::where('code', '=', $code);
         $activation = UserActivation::with(['User'])->where('code','=', $code)->get();
-        $user = null;
-        foreach($activation as $activa){
-            $user = User::find($activa->user->id);
+        if(!$activation->isEmpty()){
+            $rowactivation = UserActivation::where('code', '=', $code);
+            $user = null;
+            foreach($activation as $activa){
+                $user = User::find($activa->user->id);
+            }
+            $user->active = true;
+            $user->save();
+            $rowactivation->delete();
+            Session::flash('message', 'User Activated Successfully');
+            return redirect('login');
         }
-        $user->active = true;
-        $user->save();
-        $rowactivation->delete();
-        Session::flash('message', 'User Activated Successfully');
-        return redirect('login');
+        else{
+            Session::flash('message', 'Validation Code is not valid, if you cant login to your account please contact the webmaster.');
+            return redirect('login');
+        }
+        
+    }
+
+    public function editprofile($id){
+        $user = User::where('id', '=', $id)->get();
+        foreach ($user as $item) {
+            if($item->id == Auth::user()->id){
+                return view('profile.edit', ['information' => $user]);
+            }
+            
+        }
         
     }
 }

@@ -1,6 +1,6 @@
 @extends('layouts.backoffice')
 @section('page-header')
-    Create Customers
+    Create User
 @endsection
 @section('content')
 @include('alerts.alert')
