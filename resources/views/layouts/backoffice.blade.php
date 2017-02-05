@@ -53,7 +53,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <!-- The user image in the navbar-->
               @yield('xs-nav-user-picture')
-              <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <img src="http://placehold.it/140x100" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
               <span class="hidden-xs">{{$userFullName}}</span>
             </a>
@@ -61,7 +61,7 @@
               <!-- The user image in the menu -->
               <li class="user-header">
                 @yield('nav-prifile-user-picture')
-                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <img src="http://placehold.it/140x100" class="img-circle" alt="User Image">
 
                 <p>
                     {{$userFullName}}

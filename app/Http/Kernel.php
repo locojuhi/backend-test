@@ -59,6 +59,7 @@ class Kernel extends HttpKernel
         'edit.own.customer' => \Backend\Http\Middleware\EditOwnProfile::class,
         'read.permission' => \Backend\Http\Middleware\ReadPermission::class,
         'can.edit' => \Backend\Http\Middleware\CanEdit::class,
+        'can.delete' => \Backend\Http\Middleware\CanDelete::class,
     
     ];
 }

@@ -19,6 +19,8 @@ class UserController extends Controller
         $this->middleware('edit.own.customer', ['only' => ['editprofile']]);
         $this->middleware('read.permission', ['only' => ['show']]);
         $this->middleware('can.edit', ['only' => ['edit']]);
+        $this->middleware('can.delete', ['only' => ['destroy','create']]);
+        
     }
     /**
      * Display a listing of the resource.

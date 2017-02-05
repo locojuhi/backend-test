@@ -79,7 +79,12 @@ class User extends Authenticatable{
         $user->last_name    = $request['last_name'];
         $user->email        = $request['email'];
         $user->password     = $request['password'];
-        $user->role_id      = $request['role'];
+        if($request['role'] != null){
+            $user->role_id = $request['role'];
+        }else{
+            $user->role_id = 3;
+        }
+        //$user->role_id      = $request['role'];
         $user->save();
         //$permission = $user->permission()->get();
         $permission = UserPermission::firstOrCreate(['user_id' => $id]);

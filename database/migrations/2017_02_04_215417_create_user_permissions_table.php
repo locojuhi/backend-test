@@ -16,7 +16,7 @@ class CreateUserPermissionsTable extends Migration
         Schema::create('user_permissions', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
-            $table->string('permission');
+            $table->string('permission')->default('{"user" : {"read" : "0"}}');
             $table->timestamps();
             $table->softDeletes();
         });
