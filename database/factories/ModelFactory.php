@@ -1,5 +1,5 @@
 <?php
-
+use Backend\User;
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -12,13 +12,23 @@
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+$factory->define(Backend\User::class, function (Faker\Generator $faker) {
     static $password;
 
     return [
-        'name' => $faker->name,
+        'first_name' => $faker->firstName ,
+        'last_name' => $faker->lastName,
         'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('secret'),
-        'remember_token' => str_random(10),
+        'password' => $password ?: $password = bcrypt(str_random(10)),
+        'created_at' => $faker->dateTime,
+        'active' => true,
+    ];
+});
+
+$factory->define(Backend\Phone::class, function (Faker\Generator $faker) {
+    return [
+        'phone' => $faker->e164PhoneNumber,
+        'user_id' => User::all()->random()->id,
+        'created_at' => $faker->dateTime,
     ];
 });

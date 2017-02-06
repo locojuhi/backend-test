@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace Backend\Http\Controllers\Auth;
 
-use App\User;
-use App\Http\Controllers\Controller;
+use Backend\User;
+use Backend\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -48,9 +48,11 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'first_name' => 'required|alpha|max:50',
+            'last_name' => 'required|alpha|max:50',
+            'email' => 'required|unique:users,email|email|max:150',
+            'password' => 'required|min:6|max:16',
+            'password_confirmation' => 'required|same:password',
         ]);
     }
 
@@ -60,12 +62,8 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return User
      */
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+    protected function create(array $data){
+        $registerUser = new User();
+        $registerUser->safeRecording($data);
     }
 }

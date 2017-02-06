@@ -74,9 +74,13 @@
                     <img src="https://lh3.googleusercontent.com/3a8q6re_zkNsHSFt9SrMUrVe7DWmzxSr3v3DjJ144wTs2g9VymbhvMhf1cUNgUjATRgz" width="200px" height="200px">
                 </div>
                 <div class="title m-b-md">
-                    Backend Test
-                    <small>En proceso de construccion</small>
+                    Backend Test<br>
+                    
                 </div>
+                <small>
+                        danny.torresxd@gmail.com
+                        <br>pass: admin
+                    </small>
                 <div class="links">
                     <a href="https://github.com/locojuhi/backend-test">Repositorio</a>
                 </div>
