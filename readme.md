@@ -48,6 +48,10 @@ default port is 8000  if you want to use the port 80 you should type
 
 php artisan serve --port=80</pre>
 
+## External libs used
+* Adminlte for serve css style a js feature
+* Jquery Validator for Front validations forms
+* Bootstrap
 ## License
 
 The Laravel framework and this project is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
