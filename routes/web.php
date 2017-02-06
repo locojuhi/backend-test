@@ -22,7 +22,11 @@ Route::get('register', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
-Route::get('confirmation/{code}', 'Usercontroller@activateAccount');
+
+Route::get('confirmation/{code}', 'UserController@activateAccount');
+
 Route::get('dashboard', 'HomeController@dashboard');
+
 route::get('profile', 'HomeController@profile');
+
 route::get('profile/{id}/edit', 'UserController@editprofile');

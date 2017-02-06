@@ -14,8 +14,7 @@ class HasAccess
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
-    {
+    public function handle($request, Closure $next){
         if(Auth::user()==null){
             Session::flash('message', 'You must sign in to have access');
             return redirect('/login');

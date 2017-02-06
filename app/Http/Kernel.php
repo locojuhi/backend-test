@@ -60,6 +60,6 @@ class Kernel extends HttpKernel
         'read.permission' => \Backend\Http\Middleware\ReadPermission::class,
         'can.edit' => \Backend\Http\Middleware\CanEdit::class,
         'can.delete' => \Backend\Http\Middleware\CanDelete::class,
-    
+        'is.active' => \Backend\Http\Middleware\IsActive::class,
     ];
 }

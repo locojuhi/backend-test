@@ -14,8 +14,7 @@ class CanEdit
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
-    {
+    public function handle($request, Closure $next){
         $currenturl = url()->current();
         $edituser = action('UserController@edit', ['id' => Auth::user()->id]);
         if($currenturl == $edituser){
@@ -26,6 +25,5 @@ class CanEdit
         }else{
             return $next($request);
         }
-        
     }
 }

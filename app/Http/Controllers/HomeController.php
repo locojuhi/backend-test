@@ -13,11 +13,15 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct(){
+        /*
+        * Filter that allow to access a determinate request
+        * param is a string name on App\http\kernel
+        */
         $this->middleware('auth');
         $this->middleware('is.customer', ['except' => ['index', 'profile']]);
         $this->middleware('is.not.customer', ['except' => ['dashboard', 'profile']]);
+        $this->middleware('is.active');
     }
 
     /**
@@ -36,6 +40,5 @@ class HomeController extends Controller
     public function profile(){
         $user = User::find(Auth::user()->id);
         return view('profile.index');
-
     }
 }

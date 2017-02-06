@@ -22,7 +22,14 @@ class User extends Authenticatable{
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'password', 'role_id', 'created_at', 'updated_at', 'deleted_at',
+        'first_name', 
+        'last_name',
+        'email',
+        'password',
+        'role_id',
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     /**
@@ -31,23 +38,50 @@ class User extends Authenticatable{
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
-
+    /**
+     * The attributes manage softdeletes dates
+     *
+     * @var array
+     */
     protected $dates = ['deleted_at'];
-
-    public function setPasswordAttribute($value){
-        if(!empty($value)){
-
+    /**
+     * Mutator for the password attribute.
+     * When password is received on a instance of this model
+     * the value received will be encrypted with bcrypt
+     * $password String
+    */
+    public function setPasswordAttribute($password){
+        if(!empty($password)){
+            $this->attributes['password'] = Hash::make($password);
         }
-        $this->attributes['password'] = Hash::make($value);
     }
 
-    public function userActivation()
-    {
+    /**
+     * Methods will seach related row with and user instance
+    */
+    public function userActivation(){
         return $this->hasOne('Backend\UserActivation');
     }
 
+    public function role(){
+        return $this->belongsTo('Backend\UserRole');
+    }
+
+     public function permission(){
+        return $this->hasOne('Backend\UserPermission');
+    }
+    public function phones(){
+        return $this->belongsToMany('Backend\Phone');
+    }
+
+    /**
+    * Register a new user and generate activation code
+    * that will be sent by email 
+    * $params Array
+    */
     public function safeRecording($params){
         $user = new User();
         $user->first_name   = $params['first_name'];
@@ -62,17 +96,13 @@ class User extends Authenticatable{
         $activation->save();
         Mail::to(['name' => $user->email])->send(new AccountConfirmation($activation));
     }
-     public function role(){
-        return $this->belongsTo('Backend\UserRole');
-    }
-
-     public function permission(){
-        return $this->hasOne('Backend\UserPermission');
-    }
-    public function phones(){
-        return $this->belongsToMany('Backend\Phone');
-    }
-
+     
+    /**
+    * update and existing user
+    * grant or revoke read permission
+    * $request Array
+    * $id integer
+    */
     public function updateuser($request, $id){
         $user = User::find($id);
         $user->first_name   = $request['first_name'];
@@ -84,35 +114,13 @@ class User extends Authenticatable{
         }else{
             $user->role_id = 3;
         }
-        //$user->role_id      = $request['role'];
         $user->save();
-        //$permission = $user->permission()->get();
         $permission = UserPermission::firstOrCreate(['user_id' => $id]);
         Session::flash('message', 'User updated Successfully');
            $permission->permission = '{"user" : {
                 "read" : "'.$request['permission'].'"
             }}';
             $permission->save();
-        //$this->permissionupdate($request, $permission, $id);       
     }
 
-    public function permissionupdate($request, $permission, $id){
-        //If no permission existed before
-        if($permission->isEmpty()){
-            //New object Instance
-            $newpermission = new UserPermission();
-            //Binding Params
-            $newpermission->user_id = $id;
-            $newpermission->permission = "user: {
-                'read' : ".$request['permission']."
-            }";
-            //save new Attributes
-            $newpermission->save();
-        }else{
-            $permission->permission = "user: {
-                'read' : ".$request['permission']."
-            }";
-            $permission->save();
-        }
-    }
 }

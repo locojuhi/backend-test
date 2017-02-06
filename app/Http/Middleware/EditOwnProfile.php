@@ -13,8 +13,7 @@ class EditOwnProfile
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
-    {
+    public function handle($request, Closure $next){
         if($request->id == Auth::user()->id){
             return $next($request);
         }else{

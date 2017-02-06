@@ -14,14 +14,12 @@ class CanDelete
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
-    {
+    public function handle($request, Closure $next){
         if(Auth::user()->role_id != 1){
             Session::flash('message', 'You Can not Create or Delete users');
             return redirect('/users');
         }else{
             return $next($request);return $next($request);    
-
         }
         
     }

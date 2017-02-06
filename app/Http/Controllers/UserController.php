@@ -14,13 +14,16 @@ class UserController extends Controller
 {
     
     public function __construct(){
+        /*
+        * Filter that allow to access a determinate request
+        * param is a string name on App\http\kernel
+        */
         $this->middleware('has.access', ['except' => ['activateAccount', 'editprofile', 'update']]);
         $this->middleware('edit.customer', ['only' => ['editprofile']]);
         $this->middleware('edit.own.customer', ['only' => ['editprofile']]);
         $this->middleware('read.permission', ['only' => ['show']]);
         $this->middleware('can.edit', ['only' => ['edit']]);
-        $this->middleware('can.delete', ['only' => ['destroy','create']]);
-        
+        $this->middleware('can.delete', ['only' => ['destroy','create']]); 
     }
     /**
      * Display a listing of the resource.
@@ -28,7 +31,10 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $users = User::orderBy('first_name', 'ASC')->orderBy('last_name', 'asc')->orderBy('email', 'asc')->paginate(15);
+        $users = User::orderBy('first_name', 'ASC')
+            ->orderBy('last_name', 'asc')
+            ->orderBy('email', 'asc')
+            ->paginate(15);
         return view('users.index', ['users' => $users]);
     }
 
@@ -45,7 +51,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Request\StoreUser $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreUser $request){
@@ -63,7 +69,6 @@ class UserController extends Controller
      */
     public function show($id){
         $user = User::where('id', '=', $id)->get();
-        //dd($user->phones);
         return view('users.show', ['information' => $user]);
     }
 
@@ -75,7 +80,6 @@ class UserController extends Controller
      */
     public function edit($id){
         $user = User::where('id', '=', $id)->get();
-        //$roles = UserRole::all()->pluck('name', 'id');
         $roles = UserRole::all(['name', 'id']);
         return view('users.edit', ['information' => $user, 'roles' =>$roles]);  
     }
@@ -83,14 +87,11 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Request\UpdateUser  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateUser $request, $id){
-        /*$user = User::find($id);
-        $user->fill($request->all());
-        $user->save();*/
         $user = new User;
         $user->updateuser($request, $id);
         return redirect()->route('users.show', ['id' => $id]);
@@ -109,6 +110,12 @@ class UserController extends Controller
         Session::flash('message', 'User Deleted Successfully');
         return redirect()->action('UserController@index');
     }
+    /**
+     * receive code and will compare is that code is valid for avalidate user
+     *
+     * @param  string  $code
+     * @return \Illuminate\Http\Response
+    */
     public function activateAccount($code){
         $activation = UserActivation::with(['User'])->where('code','=', $code)->get();
         if(!$activation->isEmpty()){
@@ -129,7 +136,12 @@ class UserController extends Controller
         }
         
     }
-
+    /**
+     * Customers Edit profile
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function editprofile($id){
         $user = User::where('id', '=', $id)->get();
         foreach ($user as $item) {

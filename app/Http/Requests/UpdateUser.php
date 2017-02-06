@@ -26,8 +26,8 @@ class UpdateUser extends FormRequest
         return [
             'first_name' => 'required|alpha|max:50',
             'last_name' => 'required|alpha|max:50',
+            'password' => 'min:6|max:16|confirmed',
             'email' => 'required|unique:users,email,'.$this->user,
-            'repassword' => 'same:password',
         ];
         
     }

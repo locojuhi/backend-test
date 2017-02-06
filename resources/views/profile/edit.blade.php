@@ -37,7 +37,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-10">
-						<input type="password" class="form-control" id="re-password" placeholder="Re-Password" name="repassword">
+						<input type="password" class="form-control" id="repassword" placeholder="Re-Password" name="password_confirmation">
 					</div>
 				</div>
 				

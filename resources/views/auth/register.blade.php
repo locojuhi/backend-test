@@ -1,6 +1,9 @@
 @extends('layouts.auth')
 @section('heading')
 @endsection
+@section('table')
+    Register
+@endsection
 @include('alerts.messages')
 @include('alerts.alert')
 @section('content')
